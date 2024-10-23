@@ -1,0 +1,129 @@
+/* Sidebar specific styles */
+.sidebar {
+    width: 20vw;
+    background-color: #2c3e50;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
+    position: fixed;
+    color: #ecf0f1;
+    z-index: 1;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #3498db;
+    margin-bottom: 40px;
+    word-wrap: break-word; /* Allow text to wrap */
+    hyphens: auto; /* Enable hyphenation */
+}
+
+.logo h1 {
+    font-size: 24px;
+    word-wrap: break-word;
+    hyphens: auto;
+}
+
+.sidebar nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar nav ul li {
+    margin: 20px 0;
+}
+
+.sidebar nav ul li a {
+    text-decoration: none;
+    color: #ecf0f1;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.sidebar nav ul li a:hover {
+    color: #3498db;
+    transform: translateX(5px);
+}
+
+.sidebar-footer {
+    margin-top: 40px;
+}
+
+.discount-btn, .coupons-btn {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: none;
+    background-color: #3498db;
+    color: #fff;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+
+.discount-btn:hover, .coupons-btn:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.cart-fav {
+    margin-top: 20px;
+}
+
+.cart-fav p {
+    margin-bottom: 10px;
+    color: white;
+    font-size: 16px;
+}
+
+/* Hide the menu toggle by default (for larger screens) */
+.menu-toggle {
+    display: none;
+}
+
+/* ... other sidebar styles ... */
+@media (max-width: 1024px) {
+    .sidebar {
+        width: 180px;
+    }
+    
+    .logo h1 {
+        font-size: 18px;
+    }
+    
+    .sidebar nav ul li {
+        margin: 10px 0;
+    }
+    
+    .sidebar nav ul li a {
+        font-size: 14px;
+    }
+    
+    .discount-btn, .coupons-btn {
+        padding: 8px;
+        font-size: 12px;
+    }
+    
+    .cart-fav p {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 768px) {
+    .logo h1 {
+        font-size: 16px;
+    }
+}
+
+@media (max-height: 600px) {
+    .sidebar-footer {
+        margin-top: 20px;
+    }
+}

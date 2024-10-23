@@ -1,0 +1,60 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>ShopIno Electronics</title>
+        <link rel="stylesheet" href="styles/main.css">
+        <link rel="stylesheet" href="styles/sidebar.css">
+        <link rel="stylesheet" href="styles/index.css">
+    </head>
+    <body>
+        <div class="container">
+            <div class="sidebar">
+                <div class="sidebar-content">
+                    <div class="logo">
+                        <h1>ShopIno Electronics</h1>
+                    </div>
+                    <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+                </div>
+                <nav id="main-nav">
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="shop.html">Shop</a></li>
+                        <li><a href="product.html">Product</a></li>
+                        <li><a href="cart.html">Cart</a></li>
+                        <li><a href="#">Checkout</a></li>
+                    </ul>
+                </nav>
+                <div class="sidebar-footer">
+                    <button class="discount-btn">Discounts</button>
+                    <button class="coupons-btn">Coupons</button>
+                    <div class="cart-fav">
+                        <p>CART (0)</p>
+                        <p>FAVOURITE</p>
+                    </div>
+                </div>
+            </div>
+            <div class="scrolling-columns">
+                <div id="column1" class="column">
+                    <div class="scrollup">
+                        <!-- Products will be dynamically inserted here -->
+                    </div>
+                </div>
+                <div id="column2" class="column">
+                    <div class="scrolldown">
+                        <!-- Products will be dynamically inserted here -->
+                    </div>
+                </div>
+                <div id="column3" class="column">
+                    <div class="scrollup">
+                        <!-- Products will be dynamically inserted here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script type="module" src="js/script.js"></script>
+        <script type="module" src="js/firebase-config.js"></script>
+    </body>
+    </html>

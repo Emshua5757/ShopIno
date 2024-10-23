@@ -1,0 +1,85 @@
+.scrolling-columns {
+    display: flex;
+    width: 80vw;
+    height: 100vh;
+    overflow: hidden;
+    margin-left: 20vw;
+}
+
+.column {
+    flex: 1;
+    background-color: #f5f5f5;
+    position: relative;
+    overflow: hidden;
+}
+
+.scrollup, .scrolldown {
+    position: absolute;
+    width: 100%;
+    animation-duration: 60s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-play-state: running;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.scrollup {
+    animation-name: scrollUp;
+}
+
+.scrolldown {
+    animation-name: scrollDown;
+}
+
+.column:hover .scrollup,
+.column:hover .scrolldown {
+    animation-play-state: paused;
+}
+
+@keyframes scrollUp {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-50%); }
+}
+
+@keyframes scrollDown {
+    0% { transform: translateY(-50%); }
+    100% { transform: translateY(0); }
+}
+
+@media (max-width: 1024px) {
+    .scrolling-columns {
+        margin-left: 180px;
+    }
+}
+
+@media (max-width: 768px) {
+    .scrolling-columns {
+        position: relative; 
+        display: block;
+        animation-duration: 60s;
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
+        animation-play-state: running;
+        animation-name: scrollUp;
+        height: auto;
+        margin-left: 180px;
+    }
+
+    @keyframes scrollUp {
+        0% { transform: translateY(0); }
+        100% { transform: translateY(-100%); }
+    }
+
+    .scrolling-columns:hover {
+        animation-play-state: paused;
+    }
+
+    .scrollup, .scrolldown {
+        animation: none;
+        height: auto;
+        position: relative;
+    }
+
+}

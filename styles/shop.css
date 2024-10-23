@@ -1,0 +1,14 @@
+.catalogue-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    height: 90vh;
+    overflow-y: auto;
+}
+
+@media (max-width: 768px) {
+    .catalogue-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+}
