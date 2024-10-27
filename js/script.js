@@ -1,5 +1,5 @@
 import { db, storage, ref, getDownloadURL } from './firebase-config.js';
-import { collection, getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+import { collection, getDocs, doc, getDoc, setDoc, updateDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
 // Function to handle product selection
 function selectProduct(productId) {
@@ -103,11 +103,53 @@ async function displaySelectedProduct() {
         document.getElementById('main-product-name').textContent = selectedProduct.name;
         document.getElementById('main-product-price').textContent = `$${selectedProduct.price.toFixed(2)}`;
         document.getElementById('main-product-description').textContent = selectedProduct.description;
-        
-        // Add event listener for the "Add to Cart" button
-        document.getElementById('add-to-cart').addEventListener('click', () => {
-            addToCart(selectedProduct);
-        });
+    }
+}
+
+export async function addToCartFirebase(product, quantity = 1) {
+    const user = getCurrentUser();
+    console.log("Product:", product);
+    console.log("User:", user);
+    if (!user) {
+        console.log("User not logged in");
+        alert("Please log in to add items to your cart.");
+        window.location.href = 'cart.html';
+        return;
+    }
+
+    try {
+        console.log("User ID: ", user.uid);
+        const cartRef = doc(db, "carts", user.uid);
+        console.log("Cart reference:", cartRef);
+        const cartSnap = await getDoc(cartRef);
+
+        if (cartSnap.exists()) {
+            // Cart exists, update it
+            const cartData = cartSnap.data();
+            const existingItemIndex = cartData.items.findIndex(item => item.id === product.id);
+
+            if (existingItemIndex !== -1) {
+                // Product already in cart, update quantity
+                cartData.items[existingItemIndex].quantity += quantity;
+                await updateDoc(cartRef, { items: cartData.items });
+            } else {
+                // Product not in cart, add new item
+                await updateDoc(cartRef, {
+                    items: arrayUnion({ ...product, quantity })
+                });
+            }
+        } else {
+            // Cart doesn't exist, create a new one
+            await setDoc(cartRef, {
+                items: [{ ...product, quantity }]
+            });
+        }
+
+        console.log("Product added to cart");
+        alert("Product added to cart successfully!");
+    } catch (error) {
+        console.error("Error adding product to cart:", error);
+        alert("Error adding product to cart. Please try again.");
     }
 }
 
@@ -123,40 +165,6 @@ async function populateProductCatalogue() {
     }
 }
 
-// Function to handle adding a product to the cart
-function addToCart(product) {
-    const currentUser = getCurrentUser();
-    if (!currentUser) {
-        // Redirect to cart.html if there's no current user
-        window.location.href = 'cart.html';
-        return;
-    }
-
-    // Get the current cart from localStorage
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-
-    // Check if the product is already in the cart
-    const existingProductIndex = cart.findIndex(item => item.id === product.id);
-
-    if (existingProductIndex !== -1) {
-        // If the product is already in the cart, increase its quantity
-        cart[existingProductIndex].quantity += 1;
-    } else {
-        // If it's a new product, add it to the cart
-        cart.push({
-            ...product,
-            quantity: 1
-        });
-    }
-
-    // Save the updated cart back to localStorage
-    localStorage.setItem('cart', JSON.stringify(cart));
-
-    // Optionally, you can show a confirmation message or update the cart icon
-    alert('Product added to cart!');
-}
-
-// Function to get the current user (moved from auth.js)
 function getCurrentUser() {
     const storedUser = localStorage.getItem('currentUser');
     return storedUser ? JSON.parse(storedUser) : null;
@@ -258,13 +266,18 @@ async function init() {
         
         // Add event listener for the "Add to Cart" button
         const addToCartBtn = document.getElementById('add-to-cart');
-        if (addToCartBtn) {
+        const quantityInput = document.querySelector('.quantity-input');
+        
+        if (addToCartBtn && quantityInput) {
             addToCartBtn.addEventListener('click', () => {
                 const selectedProduct = JSON.parse(localStorage.getItem('selectedProduct'));
+                const quantity = parseInt(quantityInput.value, 10) || 1;
                 if (selectedProduct) {
-                    addToCart(selectedProduct);
+                    addToCartFirebase(selectedProduct, quantity);
                 }
             });
+        } else {
+            console.error('Add to cart button or quantity input not found');
         }
     } else if (window.location.pathname.endsWith('shop.html')) {
         console.log('Populating product catalogue');
@@ -282,5 +295,19 @@ function toggleMenu() {
     sidebarFooter.classList.toggle('show');
 }
 
-// Make sure the function is available globally
-window.toggleMenu = toggleMenu;
+function decrementQuantity() {
+    const quantityInput = document.getElementById('quantity-input');
+    let value = parseInt(quantityInput.value, 10);
+    if (value > 1) {
+        quantityInput.value = value - 1;
+    }
+}
+
+function incrementQuantity() {
+    const quantityInput = document.getElementById('quantity-input');
+    let value = parseInt(quantityInput.value, 10);
+    if (value < 99) {
+        quantityInput.value = value + 1;
+    }
+}
+

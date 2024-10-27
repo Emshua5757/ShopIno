@@ -1,78 +1,101 @@
+import { auth } from './firebase-config.js';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
+import { updateCartDisplay } from './cart.js';
+
 let currentUser = null;
 
-function getCurrentUser() {
-    return currentUser;
+export function getCurrentUser() {
+    return auth.currentUser;
 }
 
-function login(email, password) {
-    currentUser = { email: email };
-    localStorage.setItem('currentUser', JSON.stringify(currentUser));
-    updateCartView();
+function login(email, password) {   
+    console.log('Login function triggered');
+    signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            currentUser = userCredential.user;
+            localStorage.setItem('currentUser', JSON.stringify({
+                uid: currentUser.uid,
+                email: currentUser.email
+            }));    
+            console.log(currentUser);
+            showCartContent();
+            console.log("Cart content shown");
+            updateCartDisplay();
+            console.log("Cart display updated");
+            console.log("Login function completed");
+            console.log(currentUser);
+        })
+        .catch((error) => {
+            console.error("Login error:", error.code, error.message);
+            alert("Login failed: " + error.message);
+        });
+        
 }
 
 function logout() {
-    currentUser = null;
-    localStorage.removeItem('currentUser');
-    updateCartView();
+    signOut(auth).then(() => {
+        localStorage.removeItem('currentUser');
+        console.log("User logged out successfully");
+        console.log("Logout function completed");
+        console.log(currentUser);
+    }).catch((error) => {
+        console.error("Logout error:", error);
+        alert("Logout failed: " + error.message);
+    });
+
 }
 
 function register(name, email, password, phone, address) {
-    currentUser = { name, email, phone, address };
-    localStorage.setItem('currentUser', JSON.stringify(currentUser));
-    updateCartView();
+    console.log('Register function triggered');
+    createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            // Instead of setting currentUser, we'll switch to the login form
+            switchToLoginForm(email);
+            alert("Registration successful! Please log in.");
+        })
+        .catch((error) => {
+            console.error("Registration error:", error.code, error.message);
+            alert("Registration failed: " + error.message);
+        });
 }
 
-function updateCartView() {
+function showAuthForm() {
+    document.getElementById('cart-content').classList.add('hidden');
+    document.getElementById('auth-container').classList.remove('hidden');
+    document.getElementById('user-topbar').classList.add('hidden');
+}
+
+function showCartContent() {
+    document.getElementById('auth-container').classList.add('hidden');
+    document.getElementById('cart-content').classList.remove('hidden');
+    document.getElementById('user-topbar').classList.remove('hidden');
+    document.getElementById('user-email').textContent = currentUser.email;
+}
+
+function switchToLoginForm(email = '') {
+    console.log('Switch to login form triggered');
     const authContainer = document.getElementById('auth-container');
-    const cartContent = document.getElementById('cart-content');
-    const userEmail = document.getElementById('user-email');
-
-    if (getCurrentUser()) {
-        authContainer.classList.add('hidden');
-        cartContent.classList.remove('hidden');
-        userEmail.textContent = getCurrentUser().email;
-        displayCartItems();
-    } else {
-        authContainer.classList.remove('hidden');
-        cartContent.classList.add('hidden');
-    }
-}
-
-function displayCartItems() {
-    const cartItems = document.getElementById('cart-items');
-    const cartTotal = document.getElementById('cart-total');
+    const loginEmail = document.getElementById('login-email');
+    const loginPassword = document.getElementById('login-password');
     
-    // Clear existing items
-    cartItems.innerHTML = '';
-    
-    // Get cart items from localStorage
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    
-    let total = 0;
-    
-    cart.forEach(item => {
-        const cartItem = document.createElement('div');
-        cartItem.className = 'cart-item';
-        cartItem.innerHTML = `
-            <img src="${item.image}" alt="${item.name}">
-            <div class="cart-item-details">
-                <h3>${item.name}</h3>
-                <p>Quantity: ${item.quantity}</p>
-            </div>
-            <span class="cart-item-price">$${(item.price * item.quantity).toFixed(2)}</span>
-        `;
-        cartItems.appendChild(cartItem);
-        
-        total += item.price * item.quantity;
-    });
-    
-    cartTotal.textContent = total.toFixed(2);
+    authContainer.classList.remove('show-register');
+    loginEmail.value = email;
+    loginPassword.value = ''; // Clear the password field for security
+    loginPassword.focus(); // Set focus to the password field for user convenience
 }
 
 // Event listeners
 document.addEventListener('DOMContentLoaded', () => {
-    updateCartView();
-    
+    onAuthStateChanged(auth, (user) => {
+        currentUser = user;
+        if (user) {
+            showCartContent();
+            updateCartDisplay();
+        } else {
+            showAuthForm();
+        }
+    });
+
     const authContainer = document.getElementById('auth-container');
     const loginForm = document.getElementById('login-form-element');
     const registerForm = document.getElementById('register-form-element');
@@ -103,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     switchToLogin.addEventListener('click', (e) => {
         e.preventDefault();
-        authContainer.classList.remove('show-register');
+        switchToLoginForm();
     });
     
     const logoutBtn = document.getElementById('logout-btn');

@@ -5,9 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cart - ShopIno Electronics</title>
-    <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/sidebar.css">
     <link rel="stylesheet" href="styles/cart.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <script type="module" src="js/cart.js"></script>
 </head>
 
 <body>
@@ -52,7 +53,7 @@
                                 <input type="password" id="login-password" required>
                                 <label for="login-password">Password</label>
                             </div>
-                            <button type="submit" class="auth-btn">Login</button>
+                            <button type="submit" class="auth-btn" onclick="console.log('Login button clicked')">Login</button>
                         </form>
                         <p class="switch-form">Don't have an account? <a href="#" id="switch-to-register">Register</a>
                         </p>
@@ -81,21 +82,19 @@
                                 <input type="text" id="register-address" required>
                                 <label for="register-address">Address</label>
                             </div>
-                            <button type="submit" class="auth-btn">Register</button>
+                            <button type="submit" class="auth-btn" onclick="console.log('Register button clicked')">Register</button>
                         </form>
                         <p class="switch-form">Already have an account? <a href="#" id="switch-to-login">Login</a></p>
                     </div>
                 </div>
             </div>
             <div id="cart-content" class="hidden">
-                <div id="user-topbar">
+                <div id="user-topbar" class="hidden">
                     <span id="user-email"></span>
                     <button id="logout-btn">Logout</button>
                 </div>
-                <h1>Your Cart</h1>
-                <div id="cart-items">
-                    <!-- Cart items will be dynamically inserted here -->
-                </div>
+                <h2>Your Cart</h2>
+                <div id="cart-items" class="catalogue-grid"></div>
                 <div id="cart-summary">
                     <p>Total: $<span id="cart-total">0.00</span></p>
                     <button id="checkout-btn">Proceed to Checkout</button>
