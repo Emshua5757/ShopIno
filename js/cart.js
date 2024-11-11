@@ -44,8 +44,13 @@ export async function updateCartDisplay() {
             itemElement.innerHTML = `
                 <img src="${imageUrl}" alt="${item.name}">
                 <h3>${item.name}</h3>
-                <p>Quantity: ${item.quantity}</p>
-                <p class="price">$${(item.price * item.quantity).toFixed(2)}</p>
+                <p>Original Price: $${item.price.toFixed(2)}</p>
+                <div class="quantity-container">
+                    <p>Quantity: <input type="number" value="${item.quantity}" class="quantity-input" data-id="${item.id}" disabled></p>
+                    <button class="edit-quantity" data-id="${item.id}">Edit</button>
+                    <button class="save-quantity hidden" data-id="${item.id}">Save</button>
+                </div>
+                <p class="price">Current Price: $${(item.price * item.quantity).toFixed(2)}</p>
                 <button class="remove-from-cart" data-id="${item.id}">Remove</button>
             `;
             cartItemsElement.appendChild(itemElement);
@@ -57,6 +62,32 @@ export async function updateCartDisplay() {
             button.addEventListener('click', (e) => {
                 const itemId = e.target.getAttribute('data-id');
                 removeFromCart(itemId);
+            });
+        });
+
+        const editButtons = document.querySelectorAll('.edit-quantity');
+        editButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                const itemId = e.target.getAttribute('data-id');
+                const inputField = document.querySelector(`.quantity-input[data-id="${itemId}"]`);
+                inputField.disabled = false; 
+                e.target.classList.add('hidden'); 
+                const saveButton = document.querySelector(`.save-quantity[data-id="${itemId}"]`);
+                saveButton.classList.remove('hidden');
+            });
+        });
+
+        const saveButtons = document.querySelectorAll('.save-quantity');
+        saveButtons.forEach(button => {
+            button.addEventListener('click', async (e) => {
+                const itemId = e.target.getAttribute('data-id');
+                const inputField = document.querySelector(`.quantity-input[data-id="${itemId}"]`);
+                const newQuantity = parseInt(inputField.value, 10);
+                await updateItemQuantity(itemId, newQuantity - cartItems.find(item => item.id.toString() === itemId.toString()).quantity);
+                inputField.disabled = true; 
+                e.target.classList.add('hidden');
+                const editButton = document.querySelector(`.edit-quantity[data-id="${itemId}"]`);
+                editButton.classList.remove('hidden');
             });
         });
     } else {
@@ -103,9 +134,36 @@ async function removeFromCart(itemId) {
     }
 }
 
+async function updateItemQuantity(itemId, change) {
+    const user = getCurrentUser();
+    if (!user) {
+        alert("Please log in to update item quantity.");
+        return;
+    }
+
+    const cartRef = doc(db, "carts", user.uid);
+    const cartSnap = await getDoc(cartRef);
+
+    if (cartSnap.exists()) {
+        const cartItems = cartSnap.data().items;
+        const itemIndex = cartItems.findIndex(item => item.id.toString() === itemId.toString());
+
+        if (itemIndex !== -1) {
+            cartItems[itemIndex].quantity += change;
+            if (cartItems[itemIndex].quantity <= 0) {
+                cartItems.splice(itemIndex, 1);
+            }
+            await updateDoc(cartRef, { items: cartItems });
+            await updateCartDisplay();
+        } else {
+            console.log("Item not found in cart. ItemId:", itemId);
+        }
+    }
+}
+
 export function showCart() {
     document.getElementById('auth-container').classList.add('hidden');
-    document.getElementById('cart-content').classList.remove('hidden');
+    document.getElementById('cart-content').classList.remove('hidden'); 
     updateCartDisplay();
 }
 

@@ -49,7 +49,6 @@ function register(name, email, password, phone, address) {
     console.log('Register function triggered');
     createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-            // Instead of setting currentUser, we'll switch to the login form
             switchToLoginForm(email);
             alert("Registration successful! Please log in.");
         })

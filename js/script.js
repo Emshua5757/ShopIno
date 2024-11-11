@@ -84,7 +84,7 @@ function addProductListeners() {
     productItems.forEach(item => {
         const productId = parseInt(item.getAttribute('data-product-id'));
         item.addEventListener('click', () => {
-            console.log('Clicked product ID:', productId); // Debugging line
+            console.log('Clicked product ID:', productId); // Pang debug
             selectProduct(productId);
         });
     });
@@ -158,27 +158,37 @@ async function populateProductCatalogue() {
     const catalogueGrid = document.querySelector('.catalogue-grid');
     if (catalogueGrid) {
         const products = await getProducts();
-        products.forEach(product => {
-            const productItem = createProductItem(product);
-            catalogueGrid.appendChild(productItem);
-        });
+        
+        // Group products by category
+        const categorizedProducts = products.reduce((acc, product) => {
+            if (!acc[product.category]) {
+                acc[product.category] = [];
+            }
+            acc[product.category].push(product);
+            return acc;
+        }, {});
+
+        // Create sections for each category
+        for (const [category, items] of Object.entries(categorizedProducts)) {
+            const categorySection = document.createElement('div');
+            categorySection.className = 'category-section';
+            const categoryTitle = document.createElement('h2');
+            categoryTitle.textContent = category;
+            categorySection.appendChild(categoryTitle);
+
+            items.forEach(product => {
+                const productItem = createProductItem(product);
+                categorySection.appendChild(productItem);
+            });
+
+            catalogueGrid.appendChild(categorySection);
+        }
     }
 }
 
 function getCurrentUser() {
     const storedUser = localStorage.getItem('currentUser');
     return storedUser ? JSON.parse(storedUser) : null;
-}
-
-// Function to register a new user
-function registerUser(username, email, password) {
-    const usersRef = ref(database, 'users');
-    const newUserRef = push(usersRef);
-    set(newUserRef, {
-        username: username,
-        email: email,
-        password: password // Note: In a real app, you should hash passwords
-    });
 }
 
 // Function to get all products with caching
@@ -288,26 +298,4 @@ async function init() {
 // Run initialization when the DOM is fully loaded
 document.addEventListener('DOMContentLoaded', init);
 
-function toggleMenu() {
-    const mainNav = document.getElementById('main-nav');
-    const sidebarFooter = document.querySelector('.sidebar-footer');
-    mainNav.classList.toggle('show');
-    sidebarFooter.classList.toggle('show');
-}
-
-function decrementQuantity() {
-    const quantityInput = document.getElementById('quantity-input');
-    let value = parseInt(quantityInput.value, 10);
-    if (value > 1) {
-        quantityInput.value = value - 1;
-    }
-}
-
-function incrementQuantity() {
-    const quantityInput = document.getElementById('quantity-input');
-    let value = parseInt(quantityInput.value, 10);
-    if (value < 99) {
-        quantityInput.value = value + 1;
-    }
-}
 
