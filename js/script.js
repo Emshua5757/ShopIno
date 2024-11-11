@@ -226,13 +226,13 @@ async function getProducts() {
 
 // Function to get the URL of an image
 async function getImageUrl(imageName) {
-    const cachedUrl = localStorage.getItem(`image_${imageName}`);
-    if (cachedUrl) {
-        console.log("Using cached url");
-        return cachedUrl;
-    } else {
-        console.log("No cached url");
-    }
+    // const cachedUrl = localStorage.getItem(`image_${imageName}`);
+    // if (cachedUrl) {
+    //     console.log("Using cached url");
+    //     return cachedUrl;
+    // } else {
+    //     console.log("No cached url");
+    // }
 
     try {
         const imageRef = ref(storage, imageName);
