@@ -113,6 +113,27 @@
     border-radius: 4px;
 }
 
+#add-to-favorites {
+    background-color: #ff9800; 
+    color: white;
+    border: none; 
+    padding: 12px 24px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s; 
+    border-radius: 4px; 
+    margin-left: 10px; 
+}
+
+#add-to-favorites:hover {
+    background-color: #e68900; 
+    transform: translateY(-2px); 
+}
+
+#add-to-favorites:active {
+    transform: translateY(0);
+}
+
 /* Catalogue Styles */
 .catalogue-container {
     flex: 1;

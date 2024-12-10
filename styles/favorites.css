@@ -1,0 +1,44 @@
+#favorites-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.product-item {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+}
+
+.product-item img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.product-item h3 {
+    font-size: 20px;
+    color: #333;
+}
+
+.product-item p {
+    font-size: 16px;
+    color: #666;
+}
+
+.remove-from-favorites {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.remove-from-favorites:hover {
+    background-color: #d32f2f;
+} 

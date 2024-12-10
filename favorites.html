@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shop - ShopIno Electronics</title>
+    <title>Favorites - ShopIno Electronics</title>
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/sidebar.css">
-    <link rel="stylesheet" href="styles/shop.css">
+    <link rel="stylesheet" href="styles/favorites.css">
 </head>
 <body>
     <div class="container">
@@ -36,13 +36,14 @@
             </div>
         </div>
         <div class="main-content">
-            <h1>Our Products</h1>
-            <div class="catalogue-grid">
-                <!-- Product catalogue will be dynamically inserted here -->
+            <h1>Your Favorites</h1>
+            <div id="favorites-container" class="catalogue-grid">
+                <!-- Favorite products will be dynamically inserted here -->
             </div>
         </div>
     </div>
-    <script type="module" src="js/script.js"></script>
     <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/script.js"></script>
+    <script type="module" src="js/favorites.js"></script>
 </body>
-</html>
+</html> 

@@ -31,7 +31,7 @@
                 <button class="coupons-btn">Coupons</button>
                 <div class="cart-fav">
                     <p>CART (0)</p>
-                    <p>FAVOURITE</p>
+                    <p><a href="favorites.html" class="favorites-link">FAVORITES</a></p>
                 </div>
             </div>
         </div>
@@ -51,6 +51,7 @@
                             <button class="quantity-btn plus" onclick="document.getElementById('quantity-input').value = Math.min(99, parseInt(document.getElementById('quantity-input').value) + 1)">+</button>
                         </div>
                         <button id="add-to-cart" onclick="addToCartFirebase(JSON.parse(localStorage.getItem('selectedProduct')), parseInt(document.getElementById('quantity-input').value) || 1)">Add to Cart</button>
+                        <button id="add-to-favorites" onclick="addToFavorites()">Add to Favorites</button>
                     </div>
                 </div>
             </div>
@@ -62,7 +63,7 @@
             </div>
         </div>
     </div>
-
+    <script type="module" src="js/favorites.js"></script>
     <script type="module" src="js/script.js"></script>
     <script type="module" src="js/firebase-config.js"></script>
 </body>
