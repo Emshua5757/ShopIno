@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,32 +9,11 @@
     <link rel="stylesheet" href="styles/sidebar.css">
     <link rel="stylesheet" href="styles/product.css">
 </head>
+
 <body>
     <div class="container">
-        <div class="sidebar">
-            <div class="sidebar-content">
-                <div class="logo">
-                    <h1>ShopIno Electronics</h1>
-                </div>
-                <button class="menu-toggle" onclick="toggleMenu()">☰</button>
-            </div>
-            <nav id="main-nav">
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="shop.html">Shop</a></li>
-                    <li><a href="product.html">Product</a></li>
-                    <li><a href="cart.html">Cart</a></li>
-                    <li><a href="#">Checkout</a></li>
-                </ul>
-            </nav>
-            <div class="sidebar-footer">
-                <button class="discount-btn">Discounts</button>
-                <button class="coupons-btn">Coupons</button>
-                <div class="cart-fav">
-                    <p>CART (0)</p>
-                    <p><a href="favorites.html" class="favorites-link">FAVORITES</a></p>
-                </div>
-            </div>
+        <div class="sidebar" id="dynamic-sidebar">
+            <!-- Sidebar will be dynamically inserted here -->
         </div>
         <div class="main-content">
             <div class="selected-product">
@@ -46,25 +26,47 @@
                     <p id="main-product-description"></p>
                     <div class="product-actions">
                         <div class="quantity-selector">
-                            <button class="quantity-btn minus" onclick="document.getElementById('quantity-input').value = Math.max(1, parseInt(document.getElementById('quantity-input').value) - 1)">-</button>
+                            <button class="quantity-btn minus"
+                                onclick="document.getElementById('quantity-input').value = Math.max(1, parseInt(document.getElementById('quantity-input').value) - 1)">-</button>
                             <input type="number" value="1" min="1" max="99" class="quantity-input" id="quantity-input">
-                            <button class="quantity-btn plus" onclick="document.getElementById('quantity-input').value = Math.min(99, parseInt(document.getElementById('quantity-input').value) + 1)">+</button>
+                            <button class="quantity-btn plus"
+                                onclick="document.getElementById('quantity-input').value = Math.min(99, parseInt(document.getElementById('quantity-input').value) + 1)">+</button>
                         </div>
-                        <button id="add-to-cart" onclick="addToCartFirebase(JSON.parse(localStorage.getItem('selectedProduct')), parseInt(document.getElementById('quantity-input').value) || 1)">Add to Cart</button>
+                        <button id="add-to-cart"
+                            onclick="addToCartFirebase(JSON.parse(localStorage.getItem('selectedProduct')), parseInt(document.getElementById('quantity-input').value) || 1)">Add
+                            to Cart</button>
                         <button id="add-to-favorites" onclick="addToFavorites()">Add to Favorites</button>
                     </div>
                 </div>
             </div>
             <div class="catalogue-container">
-                <h1>Product Catalogue</h2>
+                <h1>Product Catalogue</h1>
+                <input type="text" id="search-input" placeholder="Search for products..." oninput="filterProducts()">
                 <div class="catalogue-grid">
                     <!-- Products will be dynamically inserted here -->
                 </div>
             </div>
         </div>
     </div>
-    <script type="module" src="js/favorites.js"></script>
     <script type="module" src="js/script.js"></script>
+    <script type="module" src="js/favorites.js"></script>
     <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/sidebar.js"></script>
+    <script>
+        function filterProducts() {
+            const searchInput = document.getElementById('search-input').value.toLowerCase();
+            const productItems = document.querySelectorAll('.product-item');
+
+            productItems.forEach(item => {
+                const productName = item.querySelector('p strong').textContent.toLowerCase();
+                if (productName.includes(searchInput)) {
+                    item.style.display = 'block'; // Show matching product
+                } else {
+                    item.style.display = 'none'; // Hide non-matching product but it is still in the block jsut hidden
+                }
+            });
+        }
+    </script>
 </body>
+
 </html>

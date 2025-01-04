@@ -153,6 +153,24 @@ export async function addToCartFirebase(product, quantity = 1) {
     }
 }
 
+// For some reason the html cant detect
+// export function filterProducts() {
+//     const searchInput = document.getElementById('search-input').value.toLowerCase();
+//     const productItems = document.querySelectorAll('.product-item');
+
+//     console.log('Filtering products with input:', searchInput); // Debugging line
+
+//     productItems.forEach(item => {
+//         const productName = item.querySelector('p strong').textContent.toLowerCase();
+//         console.log('Checking product:', productName); // Debugging line
+//         if (productName.includes(searchInput)) {
+//             item.style.display = 'block'; // Show matching product
+//         } else {
+//             item.style.display = 'none'; // Hide non-matching product
+//         }
+//     });
+// }
+
 // Populate product catalogue on shop page
 async function populateProductCatalogue() {
     const catalogueGrid = document.querySelector('.catalogue-grid');

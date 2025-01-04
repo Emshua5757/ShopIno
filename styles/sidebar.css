@@ -35,6 +35,8 @@
 
 .sidebar nav ul li {
     margin: 20px 0;
+    position: relative;
+    transition: transform 0.3s ease;
 }
 
 .sidebar nav ul li a {
@@ -142,4 +144,45 @@
 .favorites-link:hover {
     color: #3498db;
     text-decoration: underline;
+}
+
+.sidebar nav ul li.active a {
+    background-color: #3498db;
+    color: #fff;
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.sidebar nav ul li.active a:hover {
+    background-color: #2980b9;
+    color: #fff;
+}
+
+/* Base styles for list items */
+.sidebar nav ul li {
+    position: relative; /* Required for the absolute positioning of the pseudo-element */
+    transition: transform 0.3s ease; /* Smooth transition for the transform */
+}
+
+/* Hover effect for list items */
+.sidebar nav ul li:hover {
+    transform: translateX(5px); /* Move the item to the right */
+}
+
+/* Active link styles */
+.sidebar nav ul li.active a {
+    background-color: #3498db; /* Background color for active link */
+    color: #fff; /* Text color for active link */
+    font-weight: bold; /* Make the active link bold */
+    padding: 10px; /* Add padding for better spacing */
+    border-radius: 5px; /* Rounded corners */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition */
+}
+
+/* Optional: Add hover effect for active link */
+.sidebar nav ul li.active a:hover {
+    background-color: #2980b9; /* Darker shade on hover */
+    color: #fff; /* Keep text color white on hover */
 }

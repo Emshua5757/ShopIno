@@ -35,11 +35,11 @@ async function displayFavorites() {
             
             let imageUrl = '';
             try {
-                const storageRef = ref(storage, item.image); // Assuming item.image contains the path to the image in storage
+                const storageRef = ref(storage, item.image); 
                 imageUrl = await getDownloadURL(storageRef);
             } catch (error) {
                 console.error("Error fetching image:", error);
-                imageUrl = './images/placeholder.jpg'; // Fallback image
+                imageUrl = './images/placeholder.jpg'; 
             }
 
             itemElement.innerHTML = `
