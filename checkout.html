@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - ShopIno Electronics</title>
+    <link rel="stylesheet" href="styles/sidebar.css">
+    <link rel="stylesheet" href="styles/checkout.css">
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+
+<body>
+    <div class="sidebar" id="dynamic-sidebar">
+        <!-- Sidebar will be dynamically inserted here -->
+    </div>
+    <div class="main-content">
+        <div class="checkout-container">
+            <div class="selected-checkout">
+                <h2>Your Checkout</h2>
+                <div id="checkout-details">
+                    <!-- Selected checkout details will be displayed here -->
+                </div>
+            </div>
+            <div class="scrollable-container">
+                <h2>Pending Deliveries</h2>
+                <div id="pending-deliveries" class="delivery-section">
+                    <!-- Pending deliveries will be displayed here -->
+                </div>
+                <h2>Order History</h2>
+                <div id="order-history" class="history-section">
+                    <!-- Order history will be displayed here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="js/checkout.js"></script>
+    <script type="module" src="js/sidebar.js"></script>
+
+</body>
+
+</html>

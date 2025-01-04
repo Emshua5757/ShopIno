@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-import { getFirestore, doc, setDoc, getDoc, updateDoc, deleteDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+import { where, query, getFirestore, doc, setDoc, getDoc, getDocs, updateDoc, deleteDoc, arrayUnion, collection } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
 import { getStorage, ref, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-storage.js";
 
@@ -21,16 +21,20 @@ const auth = getAuth(app);
 const storage = getStorage(app);
 
 export { 
+    where,
     db, 
     auth, 
     storage, 
     doc, 
     setDoc, 
     getDoc, 
+    getDocs,
     updateDoc, 
     deleteDoc,
     arrayUnion, 
     onAuthStateChanged, 
     ref, 
-    getDownloadURL 
+    getDownloadURL, 
+    collection,
+    query
 };

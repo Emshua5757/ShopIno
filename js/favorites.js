@@ -1,14 +1,9 @@
 import { db, doc, getDoc, updateDoc, storage, setDoc, auth, getDownloadURL, ref } from './firebase-config.js';
-
-function getCurrentUser() {
-    const storedUser = localStorage.getItem('currentUser');
-    return storedUser ? JSON.parse(storedUser) : null;
-}
+import { getCurrentUser } from './utils.js';
 
 async function getFavorites() {
     const user = getCurrentUser();
     if (!user) {
-        console.log("No user is signed in");
         return [];
     }
     
@@ -27,6 +22,7 @@ async function displayFavorites() {
     const favorites = await getFavorites();
     const favoritesContainer = document.getElementById('favorites-container');
     favoritesContainer.innerHTML = '';
+    const user = getCurrentUser();
 
     if (favorites.length > 0) {
         for (const item of favorites) {
@@ -61,51 +57,12 @@ async function displayFavorites() {
                 removeFromFavorites(itemId);
             });
         });
+    } else if (!user) {
+        favoritesContainer.innerHTML = '<p>Log in your account in the cart section. Thank you..</p>';
     } else {
         favoritesContainer.innerHTML = '<p>Your favorites list is empty.</p>';
     }
 }
-
-async function addToFavorites() {
-    const user = getCurrentUser();
-    if (!user) {
-        alert("Please log in to add items to your favorites.");
-        return;
-    }
-
-    const product = JSON.parse(localStorage.getItem('selectedProduct'));
-    if (!product) {
-        alert("No product selected.");
-        return;
-    }
-
-    const favoritesRef = doc(db, "favorites", user.uid);
-    const favoritesSnap = await getDoc(favoritesRef);
-    let favoritesItems = [];
-
-    // Check if the favorites document exists
-    if (favoritesSnap.exists()) {
-        favoritesItems = favoritesSnap.data().items || [];
-    } else {
-        // If it doesn't exist, create it with an empty items array
-        console.log("Adding Favorites Document");
-        favoritesItems = [];
-        await setDoc(favoritesRef, { items: favoritesItems });
-    }
-
-    // Check if the product is already in favorites
-    const existingIndex = favoritesItems.findIndex(item => item.id === product.id);
-    if (existingIndex === -1) {
-        favoritesItems.push(product); // Add product to favorites
-        await updateDoc(favoritesRef, { items: favoritesItems });
-        alert("Product added to favorites!");
-    } else {
-        alert("This product is already in your favorites.");
-    }
-}
-
-// Attach the function to the window object to make it globally accessible
-window.addToFavorites = addToFavorites;
 
 async function removeFromFavorites(itemId) {
     const user = getCurrentUser();

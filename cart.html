@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="styles/sidebar.css">
     <link rel="stylesheet" href="styles/cart.css">
     <link rel="stylesheet" href="styles/main.css">
-    <script type="module" src="js/cart.js"></script>
 </head>
 
 <body>
@@ -24,11 +23,11 @@
                         <p>Please login to access your cart</p>
                         <form id="login-form-element">
                             <div class="input-group">
-                                <input type="email" id="login-email" required>
+                                <input type="email" id="login-email" required placeholder="Enter your email">
                                 <label for="login-email">Email</label>
                             </div>
                             <div class="input-group">
-                                <input type="password" id="login-password" required>
+                                <input type="password" id="login-password" required placeholder="Enter your password">
                                 <label for="login-password">Password</label>
                             </div>
                             <button type="submit" class="auth-btn"
@@ -42,23 +41,23 @@
                         <p>Please fill in your details to register</p>
                         <form id="register-form-element">
                             <div class="input-group">
-                                <input type="text" id="register-name" required>
+                                <input type="text" id="register-name" required placeholder="Full Name">
                                 <label for="register-name">Full Name</label>
                             </div>
                             <div class="input-group">
-                                <input type="email" id="register-email" required>
+                                <input type="email" id="register-email" required placeholder="Enter your email">
                                 <label for="register-email">Email</label>
                             </div>
                             <div class="input-group">
-                                <input type="password" id="register-password" required>
+                                <input type="password" id="register-password" required placeholder="Create a password">
                                 <label for="register-password">Password</label>
                             </div>
                             <div class="input-group">
-                                <input type="tel" id="register-phone" required>
+                                <input type="tel" id="register-phone" required placeholder="Phone Number">
                                 <label for="register-phone">Phone Number</label>
                             </div>
                             <div class="input-group">
-                                <input type="text" id="register-address" required>
+                                <input type="text" id="register-address" required placeholder="Address">
                                 <label for="register-address">Address</label>
                             </div>
                             <button type="submit" class="auth-btn"
@@ -78,15 +77,14 @@
                     <div id="cart-items" class="catalogue-grid"></div>
                     <div id="cart-summary">
                         <p>Total: $<span id="cart-total">0.00</span></p>
-                        <button id="checkout-btn">Proceed to Checkout</button>
+                        <button id="checkout-btn" onclick="handleCheckout()">Proceed to Checkout</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <script type="module" src="js/cart.js"></script>
     <script type="module" src="js/auth.js"></script>
-    <script type="module" src="js/script.js"></script>
-    <script type="module" src="js/firebase-config.js"></script>
     <script type="module" src="js/sidebar.js"></script>
 </body>
 

@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ShopIno Electronics - Shop</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="stylesheet" href="styles/sidebar.css">
-    <link rel="stylesheet" href="styles/product.css">
-</head>
-
-<body>
-    <div class="container">
+    
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>ShopIno Electronics - Shop</title>
+        <link rel="stylesheet" href="styles/main.css">
+        <link rel="stylesheet" href="styles/sidebar.css">
+        <link rel="stylesheet" href="styles/product.css">
+    </head>
+    
+    <body>
+        <div class="container">
         <div class="sidebar" id="dynamic-sidebar">
             <!-- Sidebar will be dynamically inserted here -->
         </div>
@@ -32,10 +32,8 @@
                             <button class="quantity-btn plus"
                                 onclick="document.getElementById('quantity-input').value = Math.min(99, parseInt(document.getElementById('quantity-input').value) + 1)">+</button>
                         </div>
-                        <button id="add-to-cart"
-                            onclick="addToCartFirebase(JSON.parse(localStorage.getItem('selectedProduct')), parseInt(document.getElementById('quantity-input').value) || 1)">Add
-                            to Cart</button>
-                        <button id="add-to-favorites" onclick="addToFavorites()">Add to Favorites</button>
+                        <button id="add-to-cart">Add to Cart</button>
+                        <button id="add-to-favorites">Add to Favorites</button>
                     </div>
                 </div>
             </div>
@@ -48,9 +46,7 @@
             </div>
         </div>
     </div>
-    <script type="module" src="js/script.js"></script>
-    <script type="module" src="js/favorites.js"></script>
-    <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/catalogue.js"></script>
     <script type="module" src="js/sidebar.js"></script>
     <script>
         function filterProducts() {
